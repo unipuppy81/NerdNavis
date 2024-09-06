@@ -49,25 +49,31 @@ public class CSVLoadManager : Singleton<CSVLoadManager>
 
             Item item = new Item
             {
-                s_ItemID = row[0],           // 아이템 고유 ID
-                s_ItemGrade = row[1],                   // 아이템 등급
-                s_ItemOptionType = row[2],              // 아이템 옵션 타입
-                s_DefaultValue = row[3],     // 기본 능력치 값
-                s_IconPath = row[4],                     // 아이콘 경로
-                s_curUpgradeLevel = "1"
+                s_ItemID = row[0],              // 아이템 고유 ID
+                s_ItemGrade = row[1],           // 아이템 등급
+                s_ItemOptionType = row[2],      // 아이템 옵션 타입
+                s_DefaultValue = row[3],        // 기본 능력치 값
+                s_IconPath = row[4].ToUpper(),            // 아이콘 경로
+                s_itemCount = "1",
+                s_itemLevel = "1"
             };
+
+  
 
 
             switch (item.s_ItemOptionType)
             {
                 case "AttackIncrease":
                     weaponItems.Add(item);
+                    GameManager.Instance.string_Weapon.Add(item.s_ItemID);
                     break;
                 case "DefenseIncrease":
                     armorItems.Add(item);
+                    GameManager.Instance.string_Armor.Add(item.s_ItemID);
                     break;
                 case "HpIncrease":
                     shieldItems.Add(item);
+                    GameManager.Instance.string_Shield.Add(item.s_ItemID);
                     break;
             }
         }

@@ -4,15 +4,20 @@ using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public class ItemManager : MonoBehaviour
 {
     [SerializeField] GachaManager gachaManger;
 
+    [SerializeField] private GameObject[] slots;
+
     [SerializeField] 
-    private List<Item> myItemList;
+    private List<Item> myItemList, curItemList;
     private List<Item> totalItem_Weapon, totalItem_Armor, totalItem_Shield;
+
+    private string curType = "AttackIncrease";
     void Start()
     {
         totalItem_Weapon = CSVLoadManager.Instance.weaponItems;
@@ -20,6 +25,15 @@ public class ItemManager : MonoBehaviour
         totalItem_Shield = CSVLoadManager.Instance.shieldItems;
 
         Load();
+    }
+
+    void ResetItem()
+    {
+        Item BasicItem_Weapon = totalItem_Weapon.Find(x => x.s_ItemID == "101");
+        Item BasicItem_Armor = totalItem_Armor.Find(x => x.s_ItemID == "201");
+        Item BasicItem_Shield = totalItem_Shield.Find(x => x.s_ItemID == "301");
+        myItemList = new List<Item>() { BasicItem_Weapon, BasicItem_Armor, BasicItem_Shield };
+        Save();
     }
 
     public void GetNewItemOfGacha(string typeId)
@@ -152,15 +166,55 @@ public class ItemManager : MonoBehaviour
         Save();
     }
 
+    public void TabClick(string tabName)
+    {
+        curType = tabName;
+        curItemList = myItemList.FindAll(x => x.s_ItemOptionType == tabName);
+
+        for(int i =0;i < slots.Length; i++)
+        {
+            Slot s = slots[i].GetComponent<Slot>();
+
+            bool isExist = i < curItemList.Count;
+            slots[i].SetActive(isExist);
+
+            if (isExist)
+            {
+                s.itemName = curItemList[i].s_ItemID;
+                s.itemGrade = curItemList[i].s_ItemGrade;
+                s.itemType = curItemList[i].s_ItemOptionType;
+                s.itemValue = curItemList[i].s_DefaultValue;
+                s.itemImagePath = curItemList[i].s_IconPath.ToUpper();
+                s.itemCount = curItemList[i].s_itemCount;
+                s.itemLevel = curItemList[i].s_itemLevel;
+
+                s.UpdateSlot();
+            }
+        }
+
+        int tabNum = 0;
+        switch (tabName)
+        {
+            case "AttackIncrease": tabNum = 0; break;
+            case "DefenseIncrease": tabNum = 1; break;
+            case "HpIncrease": tabNum = 2; break;
+        }
+
+    }
+
     void Save()
     {
         string jdata = JsonConvert.SerializeObject(myItemList);
         File.WriteAllText(Application.dataPath + "/Resources/MyItemText.txt", jdata);
+
+        TabClick(curType);
     }
 
     void Load()
     {
         string jdata = File.ReadAllText(Application.dataPath + "/Resources/MyItemText.txt");
         myItemList = JsonConvert.DeserializeObject<List<Item>>(jdata);
+
+        TabClick(curType);
     }
 }
