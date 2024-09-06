@@ -11,9 +11,9 @@ public class CSVLoadManager : Singleton<CSVLoadManager>
     public TextAsset ghchaInfoCSV;
 
     [Header("ItemList")]
-    public List<Item> attackIncreaseItems = new List<Item>();
-    public List<Item> defenseIncreaseItems = new List<Item>();
-    public List<Item> hpIncreaseItems = new List<Item>();
+    public List<Item> weaponItems = new List<Item>();
+    public List<Item> armorItems = new List<Item>();
+    public List<Item> shieldItems = new List<Item>();
 
 
     [Header("ItemUpgrade")]
@@ -49,25 +49,25 @@ public class CSVLoadManager : Singleton<CSVLoadManager>
 
             Item item = new Item
             {
-                n_ItemID = int.Parse(row[0]),           // 아이템 고유 ID
-                e_ItemGrade = row[1],                   // 아이템 등급
-                e_ItemOptionType = row[2],              // 아이템 옵션 타입
-                n_DefaultValue = int.Parse(row[3]),     // 기본 능력치 값
+                s_ItemID = row[0],           // 아이템 고유 ID
+                s_ItemGrade = row[1],                   // 아이템 등급
+                s_ItemOptionType = row[2],              // 아이템 옵션 타입
+                s_DefaultValue = row[3],     // 기본 능력치 값
                 s_IconPath = row[4],                     // 아이콘 경로
-                n_curUpgradeLevel = 1
+                s_curUpgradeLevel = "1"
             };
 
 
-            switch (item.e_ItemOptionType)
+            switch (item.s_ItemOptionType)
             {
                 case "AttackIncrease":
-                    attackIncreaseItems.Add(item);
+                    weaponItems.Add(item);
                     break;
                 case "DefenseIncrease":
-                    defenseIncreaseItems.Add(item);
+                    armorItems.Add(item);
                     break;
                 case "HpIncrease":
-                    hpIncreaseItems.Add(item);
+                    shieldItems.Add(item);
                     break;
             }
         }

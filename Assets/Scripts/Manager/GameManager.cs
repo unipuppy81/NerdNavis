@@ -5,17 +5,13 @@ using UnityEngine;
 public class GameManager : Singleton<GameManager>
 {
     public GachaManager gachaManager;
+    public ItemManager itemManager;
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            //gachaManager.WeaponGacha();
+            //itemManager.GetNewItemOfGacha();
         }
-    }
-
-    void GetRandomItem(string dropId)
-    {
-
     }
 }

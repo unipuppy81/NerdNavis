@@ -28,10 +28,8 @@ public class GachaManager : MonoBehaviour
         shieldInfo = FindGachaByID(30000);
     }
 
-
-
     // ¾ÆÀÌÅÛ È®·ü
-    public void GetItemID(string typeId)
+    public string GetItemID(string typeId)
     {
         string itemGrade = GetItemGrade(typeId);
         string itemType = typeId;
@@ -55,14 +53,15 @@ public class GachaManager : MonoBehaviour
         }
         
         List<Gacha> filteredItems = temp.FindAll(gacha => gacha.e_GachaRewardGrade == itemGrade);
+        Gacha randomItem = new Gacha();
 
         if (filteredItems.Count > 0)
         {
-            Gacha randomItem = filteredItems[Random.Range(0, filteredItems.Count)];
+            randomItem = filteredItems[Random.Range(0, filteredItems.Count)];
         }
+
+        return randomItem.n_GachaRewardID.ToString();
     }
-
-
 
     // µî±Þ È®·ü
     public string GetItemGrade(string id)
