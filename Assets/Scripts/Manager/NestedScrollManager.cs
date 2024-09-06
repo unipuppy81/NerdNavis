@@ -53,7 +53,7 @@ public class NestedScrollManager : MonoBehaviour, IBeginDragHandler, IDragHandle
 
             if(i == targetIndex)
             {
-                btnTargetPos.y = 10.0f;
+                btnTargetPos.y = 0f;
                 btnTargetScale = new Vector3(1.2f, 1.2f, 1f);
                 textActive = true;
             }
