@@ -3574,6 +3574,89 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1046976645}
   m_CullTransparentMesh: 1
+--- !u!1 &1082572274
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1082572276}
+  - component: {fileID: 1082572278}
+  - component: {fileID: 1082572277}
+  - component: {fileID: 1082572275}
+  m_Layer: 0
+  m_Name: Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1082572275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1082572274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2504590c3768014ebcd403f8b9b75cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemCSV: {fileID: 4900000, guid: 97b8287d44841204c8b95cda04b4fd47, type: 3}
+  upgradeCSV: {fileID: 4900000, guid: 90ba1d864b29cdb4790e221dd21ff480, type: 3}
+  gachaCSV: {fileID: 4900000, guid: 9c0e432ce6b47b14f95e3d436d2ddb2c, type: 3}
+  ghchaInfoCSV: {fileID: 4900000, guid: 65770012d85202141bfcc608d9f39a5f, type: 3}
+  attackIncreaseItems: []
+  defenseIncreaseItems: []
+  hpIncreaseItems: []
+  upgradeDataList: []
+  gachaWaeponList: []
+  gachaArmorList: []
+  gachaShieldList: []
+  gachaInfoList: []
+--- !u!4 &1082572276
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1082572274}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.3755388, y: 1.2143049, z: 2010.1825}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1082572277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1082572274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 722b0df688604a648a9a8ca2aa77d5e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1082572278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1082572274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5d4f4daf39d48b44bb110cc4e46ee62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gachaManager: {fileID: 1082572277}
 --- !u!1 &1085426980
 GameObject:
   m_ObjectHideFlags: 0
@@ -6093,7 +6176,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000015258789}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0.000030518}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1601299634
@@ -8356,3 +8439,4 @@ SceneRoots:
   - {fileID: 519420032}
   - {fileID: 940563426}
   - {fileID: 1583926784}
+  - {fileID: 1082572276}

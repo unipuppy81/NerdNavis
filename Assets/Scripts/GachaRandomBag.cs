@@ -1,18 +1,10 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GachaRandomBag : MonoBehaviour
+[CreateAssetMenu(fileName = "GachaRandomBag", menuName = "ScriptableObjects/GachaRandomBag", order = 2)]
+public class GachaRandomBag : ScriptableObject
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public List<Item> weaponPool;
+    public List<Item> armorPool;
+    public List<Item> shieldPool;
 }
