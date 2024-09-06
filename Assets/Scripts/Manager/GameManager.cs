@@ -7,6 +7,8 @@ public class GameManager : Singleton<GameManager>
 {
     public GachaManager gachaManager;
     public ItemManager itemManager;
+    public StatsManager statsManager;
+    public UIManager uiManager;
 
     public Sprite normal, rare, epic;
     public Color normalColor, rareColor, epicColor;
@@ -16,22 +18,20 @@ public class GameManager : Singleton<GameManager>
     public List<string> string_Weapon, string_Armor, string_Shield;
     public Dictionary<string, Sprite> imageDic;
 
-    private void Awake()
+    private void Start()
+    {
+        imageDic = new Dictionary<string, Sprite>();
+        
+        ColorSetting();
+        DicUpdate();
+    }
+
+
+    void ColorSetting()
     {
         ColorUtility.TryParseHtmlString("#9DA8B6", out normalColor);
         ColorUtility.TryParseHtmlString("#30AF52", out rareColor);
         ColorUtility.TryParseHtmlString("#41AEEE", out epicColor);
-
-        imageDic = new Dictionary<string, Sprite>();
-
-        DicUpdate();
-    }
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            //itemManager.GetNewItemOfGacha();
-        }
     }
 
     void DicUpdate()

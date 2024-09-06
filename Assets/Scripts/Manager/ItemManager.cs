@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 using UnityEngine;
-using UnityEngine.UI;
 
 
 public class ItemManager : MonoBehaviour
 {
-    [SerializeField] GachaManager gachaManger;
+    [SerializeField] private GachaManager gachaManger;
+    [SerializeField] private ItemOptionUpgradeManager itemUpgradeOption;
+    [SerializeField] private StatsManager statsManager;
 
     [SerializeField] private GameObject[] slots;
 
@@ -24,6 +25,7 @@ public class ItemManager : MonoBehaviour
         totalItem_Armor = CSVLoadManager.Instance.armorItems;
         totalItem_Shield = CSVLoadManager.Instance.shieldItems;
 
+        //ResetItem();
         Load();
     }
 
@@ -32,6 +34,12 @@ public class ItemManager : MonoBehaviour
         Item BasicItem_Weapon = totalItem_Weapon.Find(x => x.s_ItemID == "101");
         Item BasicItem_Armor = totalItem_Armor.Find(x => x.s_ItemID == "201");
         Item BasicItem_Shield = totalItem_Shield.Find(x => x.s_ItemID == "301");
+
+        BasicItem_Weapon.InitItemSet();
+        BasicItem_Armor.InitItemSet();
+        BasicItem_Shield.InitItemSet();
+
+
         myItemList = new List<Item>() { BasicItem_Weapon, BasicItem_Armor, BasicItem_Shield };
         Save();
     }
@@ -62,18 +70,25 @@ public class ItemManager : MonoBehaviour
         if(curItem != null)
         {
             curItem.s_itemCount = int.Parse((curItem.s_itemCount + 1)).ToString();
-            // °ñµå °¨¼Ò
         }
         else
         {
             Item findItem = totalItem_Weapon.Find(x => x.s_ItemID == itemId);
-            if(findItem != null )
+            if(findItem != null)
             {
                 findItem.s_itemCount = "1";
+                findItem.InitItemSet();
+
                 myItemList.Add(findItem);
-                // °ñµå °¨¼Ò
             }
         }
+
+
+        if (int.Parse(curItem.s_itemCount) == curItem.n_needCount)
+        {
+            itemUpgradeOption.ItemUpgrade(curItem);
+        }
+
 
         myItemList.Sort((p1, p2) =>
         {
@@ -99,7 +114,6 @@ public class ItemManager : MonoBehaviour
         if (curItem != null)
         {
             curItem.s_itemCount = int.Parse((curItem.s_itemCount + 1)).ToString();
-            // °ñµå °¨¼Ò
         }
         else
         {
@@ -107,9 +121,14 @@ public class ItemManager : MonoBehaviour
             if (findItem != null)
             {
                 findItem.s_itemCount = "1";
+                findItem.InitItemSet();
                 myItemList.Add(findItem);
-                // °ñµå °¨¼Ò
             }
+        }
+
+        if (int.Parse(curItem.s_itemCount) == curItem.n_needCount)
+        {
+            itemUpgradeOption.ItemUpgrade(curItem);
         }
 
         myItemList.Sort((p1, p2) =>
@@ -136,7 +155,6 @@ public class ItemManager : MonoBehaviour
         if (curItem != null)
         {
             curItem.s_itemCount = int.Parse((curItem.s_itemCount + 1)).ToString();
-            // °ñµå °¨¼Ò
         }
         else
         {
@@ -144,9 +162,14 @@ public class ItemManager : MonoBehaviour
             if (findItem != null)
             {
                 findItem.s_itemCount = "1";
+                findItem.InitItemSet();
                 myItemList.Add(findItem);
-                // °ñµå °¨¼Ò
             }
+        }
+
+        if (int.Parse(curItem.s_itemCount) == curItem.n_needCount)
+        {
+            itemUpgradeOption.ItemUpgrade(curItem);
         }
 
         myItemList.Sort((p1, p2) =>
@@ -202,6 +225,20 @@ public class ItemManager : MonoBehaviour
 
     }
 
+    public void ItemPowerSetting()
+    {
+        foreach(Item item in myItemList)
+        {
+            string itemType = item.s_ItemOptionType;
+            switch (itemType)
+            {
+                case "AttackIncrease": statsManager.PlusAttack(item.n_itemPower);  break;
+                case "DefenseIncrease": statsManager.PlusDefense(item.n_itemPower); break;
+                case "HpIncrease": statsManager.PlusHp(item.n_itemPower); break;
+            }
+        }
+    }
+
     void Save()
     {
         string jdata = JsonConvert.SerializeObject(myItemList);
@@ -215,6 +252,8 @@ public class ItemManager : MonoBehaviour
         string jdata = File.ReadAllText(Application.dataPath + "/Resources/MyItemText.txt");
         myItemList = JsonConvert.DeserializeObject<List<Item>>(jdata);
 
+        ItemPowerSetting();
+        GameManager.Instance.uiManager.UpdateStatsText();
         TabClick(curType);
     }
 }
