@@ -106,12 +106,16 @@ public class NestedScrollManager : MonoBehaviour, IBeginDragHandler, IDragHandle
             if(contentTr.GetChild(i).GetComponent<ScrollRect>() && curPos != pos[i] && targetPos == pos[i])
                 contentTr.GetChild(i).GetChild(1).GetComponent<Scrollbar>().value = 1;
         }
+
+        GameManager.Instance.uiManager.ResourcesTabUpdate(targetIndex);
     }
 
     public void TabClick(int n)
     {
         targetIndex = n;
         targetPos = pos[n];
+        GameManager.Instance.uiManager.ResourcesTabUpdate(targetIndex);
     }
+
 
 }

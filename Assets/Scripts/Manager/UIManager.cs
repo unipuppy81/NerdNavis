@@ -40,15 +40,16 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Button collectionButton;
     [SerializeField] private TextMeshProUGUI isAcquireText;
     [SerializeField] private TextMeshProUGUI canAcquireAmountText;
+    [SerializeField] private TextMeshProUGUI titleText;
 
     #region 상단 스탯창
 
     public void UpdateStatsText()
     {
-        totalPowerText.text = statsManager.GetPower().ToString();
-        atkText.text = statsManager.GetAttack().ToString();
-        defText.text = statsManager.GetDefense().ToString();
-        hpText.text = statsManager.GetHp().ToString();
+        totalPowerText.text = GameManager.Instance.FormatResource(statsManager.GetPower()).ToString();
+        atkText.text = GameManager.Instance.FormatResource(statsManager.GetAttack()).ToString();
+        defText.text = GameManager.Instance.FormatResource(statsManager.GetDefense()).ToString();
+        hpText.text = GameManager.Instance.FormatResource(statsManager.GetHp()).ToString();
     }
 
     #endregion
@@ -84,19 +85,31 @@ public class UIManager : MonoBehaviour
 
     #region 가챠
     
-    public void ClickOneBtn()
+    public void ClickOneBtn(int count)
     {
-        GameManager.Instance.itemManager.GetNewItemOfGacha( 1);
+        if(ResourceManager.Instance.GetCurResource() >= count * GlobalValueData.n_RequireGachaPrice)
+        {
+            ResourceManager.Instance.ResourcesSet(-count*GlobalValueData.n_RequireGachaPrice);
+            GameManager.Instance.itemManager.GetNewItemOfGacha(count);
+        }
     }
 
-    public void ClickTenBtn()
+    public void ClickTenBtn(int count)
     {
-        GameManager.Instance.itemManager.GetNewItemOfGacha(10);
+        if (ResourceManager.Instance.GetCurResource() >= count * GlobalValueData.n_RequireGachaPrice)
+        {
+            ResourceManager.Instance.ResourcesSet(-count * GlobalValueData.n_RequireGachaPrice);
+            GameManager.Instance.itemManager.GetNewItemOfGacha(count);
+        }
     }
 
-    public void ClickHundredBtn()
+    public void ClickHundredBtn(int count)
     {
-        GameManager.Instance.itemManager.GetNewItemOfGacha(100);   
+        if (ResourceManager.Instance.GetCurResource() >= count * GlobalValueData.n_RequireGachaPrice)
+        {
+            ResourceManager.Instance.ResourcesSet(-count * GlobalValueData.n_RequireGachaPrice);
+            GameManager.Instance.itemManager.GetNewItemOfGacha(count);
+        }
     }
    
 
@@ -104,6 +117,8 @@ public class UIManager : MonoBehaviour
     {
         collectPanel.SetActive(false);
         GameManager.Instance.itemManager.gachaItemList.Clear();
+        GameManager.Instance.itemManager.ItemPowerSetting();
+        UpdateStatsText();
     }
 
     public void CollectPanelActive()
@@ -115,12 +130,18 @@ public class UIManager : MonoBehaviour
 
     #region 자원 탭
 
-    public void ResourcesTabUpdate()
+    public void ResourcesTabUpdate(int index)
     {
-        // 메뉴 타이틀
-        // 자원 충전 현황
-        // 자원획득 가능 유무
-        // 자원 획득 현황
+        switch (index)
+        {
+            case 0:
+                titleText.text = "Resource";
+                break;
+            case 1:
+                titleText.text = "Gacha";
+                break;
+        }
+
     }
 
     public void UpdateButton(bool isAcquire)

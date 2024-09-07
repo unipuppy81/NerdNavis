@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 using UnityEngine;
-using Random = System.Random;
 
 public class ItemManager : MonoBehaviour
 {
@@ -27,8 +26,8 @@ public class ItemManager : MonoBehaviour
         totalItem_Armor = CSVLoadManager.Instance.armorItems;
         totalItem_Shield = CSVLoadManager.Instance.shieldItems;
 
-        ResetItem();
-        //Load();
+        //ResetItem();
+        Load();
     }
 
     void ResetItem()
@@ -368,7 +367,6 @@ public class ItemManager : MonoBehaviour
     }
 
     #endregion
-
 
     #region JSON
     void Save()
