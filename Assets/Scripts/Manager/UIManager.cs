@@ -30,6 +30,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Button oneBtn;
     [SerializeField] private Button tenBtn;
     [SerializeField] private Button hundredBtn;
+    [SerializeField] private GameObject collectPanel;
     private string type = null;
 
     [Header("Resource Scene")]
@@ -85,52 +86,29 @@ public class UIManager : MonoBehaviour
     
     public void ClickOneBtn()
     {
-        SetItemType();
-        GameManager.Instance.itemManager.GetNewItemOfGacha(type);
-        GameManager.Instance.itemManager.GachaUISetting();
-        GameManager.Instance.itemManager.gachaItemList.Clear();
+        GameManager.Instance.itemManager.GetNewItemOfGacha( 1);
     }
 
     public void ClickTenBtn()
     {
-        SetItemType();
-
-        for (int i =0;i < 10; i++)
-        {
-            GameManager.Instance.itemManager.GetNewItemOfGacha(type);
-        }
-
-        GameManager.Instance.itemManager.GachaUISetting();
-        GameManager.Instance.itemManager.gachaItemList.Clear();
+        GameManager.Instance.itemManager.GetNewItemOfGacha(10);
     }
 
     public void ClickHundredBtn()
     {
-        SetItemType();
+        GameManager.Instance.itemManager.GetNewItemOfGacha(100);   
+    }
+   
 
-        for (int i = 0; i < 100; i++)
-        {
-            GameManager.Instance.itemManager.GetNewItemOfGacha(type);
-        }
-
-        GameManager.Instance.itemManager.GachaUISetting();
+    public void OnClickExit_Collect()
+    {
+        collectPanel.SetActive(false);
         GameManager.Instance.itemManager.gachaItemList.Clear();
     }
-    
-    private void SetItemType()
-    {
-        int n = RandomCount();
-        switch (n)
-        {
-            case 1: type = "10000"; break;
-            case 2: type = "20000"; break;
-            case 3: type = "30000"; break;
-        }
-    }
 
-    private int RandomCount()
+    public void CollectPanelActive()
     {
-        return Random.Range(1, 4);
+        collectPanel.SetActive(true);
     }
 
     #endregion

@@ -19,6 +19,9 @@ public class Item
     [Header("NextUpgrade")]
     public int curCost;
 
+    [Header("GachaCount")]
+    public int gachaCount = 1;
+
     public void InitItemSet()
     {
         n_itemPower = int.Parse(s_DefaultValue);
