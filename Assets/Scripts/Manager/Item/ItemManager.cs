@@ -305,9 +305,9 @@ public class ItemManager : MonoBehaviour
     #region °¡Ã­
     public void GetNewItemOfGacha(int count)
     {
-        randomType = SetItemType();
         for (int i =0;i < count; i++)
         {
+            randomType = SetItemType();
             switch (randomType)
             {
                 case "10000":
