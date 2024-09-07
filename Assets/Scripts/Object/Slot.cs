@@ -15,13 +15,8 @@ public class Slot : MonoBehaviour
 
 
     [Header("Item Information")]
-    public string itemName;
-    public string itemGrade;
-    public string itemType;
-    public string itemValue;
-    public string itemImagePath;
-    public string itemCount;
-    public string itemLevel;
+    public Item curItem;
+
 
     public void UpdateSlot()
     {
@@ -34,7 +29,7 @@ public class Slot : MonoBehaviour
     {
         // 안되는 이유 찾지 못함
         /*
-        string path = "Image_/" + itemImagePath;
+        string path = "Image_/" + curItem.s_IconPath;
         Sprite newItemSprite = Resources.Load<Sprite>(path);
 
         if (newItemSprite != null)
@@ -43,13 +38,13 @@ public class Slot : MonoBehaviour
 
         Sprite newItemSprite = null;
 
-        if (GameManager.Instance.imageDic.ContainsKey(itemName))
+        if (GameManager.Instance.imageDic.ContainsKey(curItem.s_ItemID))
         {
-            newItemSprite = GameManager.Instance.imageDic[itemName];
+            newItemSprite = GameManager.Instance.imageDic[curItem.s_ItemID];
             itemImage.sprite = newItemSprite;
         }
 
-        switch (itemGrade)
+        switch (curItem.s_ItemGrade)
         {
             case "Normal":
                 frameImage.sprite = GameManager.Instance.normal;
@@ -66,15 +61,20 @@ public class Slot : MonoBehaviour
         }
     }
 
-
     void SliderUpdate()
     {
-        // 나중에
+        slider.maxValue = curItem.n_needCount;
+        slider.value = int.Parse(curItem.s_itemCount);
     }
 
     void TextUpdate()
     {
-        levelText.text = "Lv." + itemLevel;
-        // upgradeText 나중에
+        levelText.text = "Lv." + curItem.s_itemLevel;
+        
+    }
+
+    public void OnClickSlot()
+    {
+        GameManager.Instance.ClickSlot(this);
     }
 }

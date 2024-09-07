@@ -18,6 +18,8 @@ public class ItemManager : MonoBehaviour
     private List<Item> myItemList, curItemList;
     private List<Item> totalItem_Weapon, totalItem_Armor, totalItem_Shield;
 
+    public List<Item> gachaItemList;
+
     private string curType = "AttackIncrease";
     void Start()
     {
@@ -44,32 +46,16 @@ public class ItemManager : MonoBehaviour
         Save();
     }
 
-    public void GetNewItemOfGacha(string typeId)
-    {
-        switch (typeId)
-        {
-            case "10000":
-                string itemId_w = gachaManger.GetItemID("10000");
-                GetItem_Weapon(itemId_w);
-                break;
-            case "20000":
-                string itemId_a = gachaManger.GetItemID("20000");
-                GetItem_Weapon(itemId_a);
-                break;
-            case "30000":
-                string itemId_s = gachaManger.GetItemID("30000");
-                GetItem_Weapon(itemId_s);
-                break;
-        }
-    }
+    #region ¾ÆÀÌÅÛ È¹µæ & µ¥¹ÌÁö
 
     public void GetItem_Weapon(string itemId)
     {
-        Item curItem = myItemList.Find(x => x.s_ItemID == itemId);
-
+        Item curItem = myItemList.Find(x => x.s_ItemID.Equals(itemId));
+        Item gachaItem = gachaItemList.Find(x => x.s_ItemID.Equals(itemId));
         if(curItem != null)
         {
             curItem.s_itemCount = int.Parse((curItem.s_itemCount + 1)).ToString();
+            gachaItem.s_itemCount = int.Parse((gachaItem.s_itemCount + 1)).ToString();
         }
         else
         {
@@ -78,8 +64,8 @@ public class ItemManager : MonoBehaviour
             {
                 findItem.s_itemCount = "1";
                 findItem.InitItemSet();
-
                 myItemList.Add(findItem);
+                gachaItemList.Add(findItem);
             }
         }
 
@@ -104,16 +90,19 @@ public class ItemManager : MonoBehaviour
             }
         });
 
+
+
         Save();
     }
 
     public void GetItem_Armor(string itemId)
     {
-        Item curItem = myItemList.Find(x => x.s_ItemID == itemId);
-
+        Item curItem = myItemList.Find(x => x.s_ItemID.Equals(itemId));
+        Item gachaItem = gachaItemList.Find(x => x.s_ItemID.Equals(itemId));
         if (curItem != null)
         {
             curItem.s_itemCount = int.Parse((curItem.s_itemCount + 1)).ToString();
+            gachaItem.s_itemCount = int.Parse((gachaItem.s_itemCount + 1)).ToString();
         }
         else
         {
@@ -123,8 +112,10 @@ public class ItemManager : MonoBehaviour
                 findItem.s_itemCount = "1";
                 findItem.InitItemSet();
                 myItemList.Add(findItem);
+                gachaItemList.Add(findItem);
             }
         }
+
 
         if (int.Parse(curItem.s_itemCount) == curItem.n_needCount)
         {
@@ -150,11 +141,12 @@ public class ItemManager : MonoBehaviour
 
     public void GetItem_Shield(string itemId)
     {
-        Item curItem = myItemList.Find(x => x.s_ItemID == itemId);
-
+        Item curItem = myItemList.Find(x => x.s_ItemID.Equals(itemId));
+        Item gachaItem = gachaItemList.Find(x => x.s_ItemID.Equals(itemId));
         if (curItem != null)
         {
             curItem.s_itemCount = int.Parse((curItem.s_itemCount + 1)).ToString();
+            gachaItem.s_itemCount = int.Parse((gachaItem.s_itemCount + 1)).ToString();
         }
         else
         {
@@ -164,6 +156,7 @@ public class ItemManager : MonoBehaviour
                 findItem.s_itemCount = "1";
                 findItem.InitItemSet();
                 myItemList.Add(findItem);
+                gachaItemList.Add(findItem);
             }
         }
 
@@ -203,14 +196,7 @@ public class ItemManager : MonoBehaviour
 
             if (isExist)
             {
-                s.itemName = curItemList[i].s_ItemID;
-                s.itemGrade = curItemList[i].s_ItemGrade;
-                s.itemType = curItemList[i].s_ItemOptionType;
-                s.itemValue = curItemList[i].s_DefaultValue;
-                s.itemImagePath = curItemList[i].s_IconPath.ToUpper();
-                s.itemCount = curItemList[i].s_itemCount;
-                s.itemLevel = curItemList[i].s_itemLevel;
-
+                s.curItem = curItemList[i];
                 s.UpdateSlot();
             }
         }
@@ -239,6 +225,38 @@ public class ItemManager : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region °¡Ã­
+    public void GetNewItemOfGacha(string typeId)
+    {
+        switch (typeId)
+        {
+            case "10000":
+                string itemId_w = gachaManger.GetItemID("10000");
+                GetItem_Weapon(itemId_w);
+                break;
+            case "20000":
+                string itemId_a = gachaManger.GetItemID("20000");
+                GetItem_Weapon(itemId_a);
+                break;
+            case "30000":
+                string itemId_s = gachaManger.GetItemID("30000");
+                GetItem_Weapon(itemId_s);
+                break;
+        }
+    }
+
+
+    public void GachaUISetting()
+    {
+
+    }
+
+    #endregion
+
+
+    #region JSON
     void Save()
     {
         string jdata = JsonConvert.SerializeObject(myItemList);
@@ -256,4 +274,5 @@ public class ItemManager : MonoBehaviour
         GameManager.Instance.uiManager.UpdateStatsText();
         TabClick(curType);
     }
+    #endregion
 }

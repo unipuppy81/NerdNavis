@@ -51,4 +51,16 @@ public class GameManager : Singleton<GameManager>
             imageDic.Add(string_Shield[i], sprite_Shield[i]);
         }
     }
+
+    public void ClickSlot(Slot slot)
+    {
+        uiManager.OnClickItem(slot.curItem);
+    }
+
+    public string FormatResource(float value)
+    {
+        if (value < 1000) return value.ToString("F2").TrimEnd('0').TrimEnd('.');
+        if (value < 1000000) return (value / 1000f).ToString("F2").TrimEnd('0').TrimEnd('.') + "K";
+        return (value / 1000000f).ToString("F2").TrimEnd('0').TrimEnd('.') + "M";
+    }
 }

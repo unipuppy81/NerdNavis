@@ -8,7 +8,8 @@ public class CSVLoadManager : Singleton<CSVLoadManager>
     public TextAsset itemCSV;
     public TextAsset upgradeCSV;
     public TextAsset gachaCSV;
-    public TextAsset ghchaInfoCSV;
+    public TextAsset gachaInfoCSV;
+    public TextAsset globalValueCSV;
 
     [Header("ItemList")]
     public List<Item> weaponItems = new List<Item>();
@@ -28,12 +29,14 @@ public class CSVLoadManager : Singleton<CSVLoadManager>
     [Header("GachaInfo")]
     public List<GachaInfo> gachaInfoList = new List<GachaInfo>();
 
+
     private void Awake()
     {
         LoadItemData();
         LoadUpGradeData();
         LoadGachaData();
         LoadGachaInfo();
+        LoadGlobalValue();
     }
 
     void LoadItemData()
@@ -133,10 +136,9 @@ public class CSVLoadManager : Singleton<CSVLoadManager>
         }
     }
 
-
     void LoadGachaInfo()
     {
-        string[] data = ghchaInfoCSV.text.Split(new char[] { '\n' });
+        string[] data = gachaInfoCSV.text.Split(new char[] { '\n' });
         for (int i = 2; i < data.Length; i++)
         {
             if (string.IsNullOrWhiteSpace(data[i])) continue;
@@ -153,6 +155,39 @@ public class CSVLoadManager : Singleton<CSVLoadManager>
             };
 
             gachaInfoList.Add(gacha);
+        }
+    }
+
+    void LoadGlobalValue()
+    {
+        string[] data = globalValueCSV.text.Split(new char[] { '\n' });
+        for (int i = 2; i < data.Length; i++)
+        {
+            if (string.IsNullOrWhiteSpace(data[i])) continue;
+
+            string[] row = data[i].Split(',');
+
+            string variableName = row[0];
+            string variableValue = row[1];
+
+            switch (variableName)
+            {
+                case "n_RefillMoneyInterval":
+                    GlobalValueData.n_RefillMoneyInterval = int.Parse(variableValue);
+                    break;
+                case "n_RefillMoneyCount":
+                    GlobalValueData.n_RefillMoneyCount = float.Parse(variableValue);
+                    break;
+                case "n_DefaultMoneyCount":
+                    GlobalValueData.n_DefaultMoneyCount = int.Parse(variableValue);
+                    break;
+                case "n_RequireGachaPrice":
+                    GlobalValueData.n_RequireGachaPrice = int.Parse(variableValue);
+                    break;
+                case "n_MaxMoneyLimit":
+                    GlobalValueData.n_MaxMoneyLimit = int.Parse(variableValue);
+                    break;
+            }
         }
     }
 }
