@@ -44,7 +44,6 @@ public class ResourceManager : Singleton<ResourceManager>
     {
         resourceAccumulator += GlobalValueData.n_RefillMoneyCount * Time.deltaTime;
         timer += Time.deltaTime;
-        resourcesChargeSlider.value = resourceAccumulator;
 
         if (timer >= 1.0f)
         {
